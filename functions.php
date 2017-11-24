@@ -8,7 +8,7 @@ function getSponsorData($con,$sponsor_code){
 	return $row;
 }
 function getPairIds($con,$sponsor_code){
-	$sql = "select Distinct(pair_id) from agents where sponsor_code = '".$sponsor_code."'";
+	$sql = "select Distinct(pair_id) from agents where sponsor_code = '".$sponsor_code."' ORDER BY pair_id";
 	$result = mysqli_query($con,$sql);
 	$rows = array();
 	while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {    
@@ -38,11 +38,18 @@ function renderTree($con,$sponsor_code) {
 	$pair_ids = getPairIds($con,$sponsor_code);
 	$pair_count = count($pair_ids);
 	if( $pair_count > 0) {
-		for($i = $pair_count; $i >= 1;$i--) {
+		for($i = 1; $i <= $pair_count;$i++) {
+			if($i%2 != 0){
+				$html .= "<li><ul>";
+			}
+			
     		$pair_values = getPairValues($con,$sponsor_code,$i);
     		foreach ($pair_values as $key => $value) {
 				$html .= "<li>".renderTree($con,$value['agent_code'])."</li>";
     		}
+    		if($i%2 == 0){
+				$html .= "</ul>";
+			}
     	}
 	} else {
 	}
