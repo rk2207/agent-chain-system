@@ -1,13 +1,9 @@
 <?php 
 include("config.php");
 include("functions.php");
-$rows = getSponsors($con);
-//echo "<pre>";print_r($rows);
-
 ?>
 
 <style type="text/css">
-/*Now the CSS*/
 * {margin: 0; padding: 0;}
 
 .tree ul {
@@ -113,11 +109,8 @@ right connector from last child*/
 
 <?php
 $sponsor_code = '1272129311';
-
-//$trees = getTrees($con,$sponsor_code);
 $trees = renderTree($con,$sponsor_code);
 ?>
 <div class="tree">
-	<!-- <a href="/tree-master/view.php">Tree View</a> -->
 	<?php echo "<ul><li>".$trees."</li></ul>";?>
 </div>
