@@ -24,11 +24,6 @@ function getPairValues($con,$sponsor_code,$pair_id){
 	$result = mysqli_query($con,$sql);
 	$rows = array();
 	$row = mysqli_fetch_array($result, MYSQLI_ASSOC);
-	// while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {    
-
-		// $rows[] =$row;
-	// }
-	// return $rows;
 	return $row;
 }
 function getPairValues0($con,$sponsor_code,$pair_id){
@@ -52,12 +47,7 @@ function checkChildDataExist($con,$sponsor_code){
 	$row = mysqli_fetch_array($result, MYSQLI_ASSOC); 
 	return count($row);
 }
-function prx($array){
-	echo "<pre>";print_r($array);die;
-}
-function pr($array){
-	echo "<pre>";print_r($array);
-}
+
 function createTree($con,$sponsor_code){
 	$html = "<ul><li><a href=''>".$sponsor_code."</a>";
 	$html .= renderTree($con,$sponsor_code,0,1);
@@ -87,12 +77,10 @@ function renderTree($con,$sponsor_code,$i=0,$flag=0) {
 		$i = 1;
 		foreach($pair_ids as $k => $v) {
     		$pair_values = getPairValues($con,$sponsor_code,$v);
-    		// $checkChildExist = checkChildDataExist($con,$pair_values['agent_code']);
 			if($i%2 != 0 && ($checkChildExist || $r)){ // odd pair_id and child exist
 				$html .= "<li id='2'><ul id='4'>";
 			}
-			// echo $i."<br>".pr($pair_values);
-			if($i%2 == 0 && $checkChildExist){
+			if($i%2 == 0 && $checkChildExist){ // even pair_id and child exist
 				$html .= "<li><ul>";
 			}
 			$html .= "<li id='3'>".renderTree($con,$pair_values['agent_code'],$i)."</li>";
@@ -100,7 +88,7 @@ function renderTree($con,$sponsor_code,$i=0,$flag=0) {
     		if($i%2 == 0 && (!$flag || $r)){
 				$html .= "</ul></li>";
 			}
-			if($pair_count%2 != 0 && $i == $pair_count){// pair count odd & on last loop
+			if($pair_count%2 != 0 && $i == $pair_count){// pair_id odd & on last loop
 				$html .= "</ul></li>";
 			}
 			$checkChildExist = 0;
