@@ -35,19 +35,6 @@ function getPairValues($con,$sponsor_code,$pair_id){
 	$row = mysqli_fetch_array($result, MYSQLI_ASSOC);
 	return $row;
 }
-function getPairValues0($con,$sponsor_code,$pair_id){
-
-	$sql = "select * from agents where sponsor_code ='".$sponsor_code."' AND pair_id ='".$pair_id."'";
-	$result = mysqli_query($con,$sql);
-	$rows = array();
-	$row = mysqli_fetch_array($result, MYSQLI_ASSOC);
-	while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {    
-
-		$rows[] =$row;
-	}
-	return $rows;
-	return $row;
-}
 function addAgent($con,$request_array){
 
 	$sql = "INSERT INTO `agents` (`id`, `agent_code`, `sponsor_code`, `pair_id`, `leg`, `depth_level`) VALUES (NULL, '".$request_array['agent_code']."', '".$request_array['sponsor_code']."', '".$request_array['pair_id']."', '".$request_array['leg']."', '".$request_array['depth_level']."');";
@@ -69,9 +56,8 @@ function pr($array){
 function checkChildDataExist($con,$sponsor_code){
 	$sql = "select * from agents where sponsor_code ='".$sponsor_code."'";
 	$result = mysqli_query($con,$sql);
-	$row = array();
-	$row = mysqli_fetch_array($result, MYSQLI_ASSOC); 
-	return count($row);
+	$row = mysqli_fetch_array($result, MYSQLI_ASSOC);
+	return $result->num_rows;
 }
 
 function createTree($con,$sponsor_code){
@@ -115,7 +101,7 @@ function renderTree($con,$sponsor_code,$i=0,$flag=0) {
     		if($i%2 == 0 && (!$flag || $r)){
 				$html .= "</ul></li>";
 			}
-			// if($pair_count%2 != 0 && $i == $pair_count){// pair_id odd & on last loop
+			// if($i == $pair_count){// pair_id odd & on last loop
 				// $html .= "</ul></li>";
 			// }
 			$checkChildExist = 0;
