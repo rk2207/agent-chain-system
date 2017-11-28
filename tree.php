@@ -1,6 +1,6 @@
 <?php 
 include("config.php");
-include("function1.php");
+include("functions.php");
 ?>
 <!DOCTYPE html>
 <html>
@@ -114,7 +114,6 @@ include("function1.php");
 	$trees = createTree($con,$sponsor_code);
 	?>
 	<div class="tree">
-		<?php //echo "<ul><li>".$trees."</li></ul>";?>
 		<?php echo $trees;?>
 	</div>
 </body>
